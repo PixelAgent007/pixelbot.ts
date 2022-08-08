@@ -4,8 +4,7 @@ services:
     container_name: pixelbot
     build: .
     command: node build/main.js
-    environment:
-      env_file: .env
+    env_file: .env
     networks:
       - pixelbot
   pixelbotdb:

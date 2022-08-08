@@ -21,3 +21,7 @@ services:
     networks:
       - pixelbot
 
+networks:
+  pixelbot:
+    driver: bridge
+

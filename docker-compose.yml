@@ -1,9 +1,23 @@
 version: "3"
 services:
-  app:
+  pixelbot:
+    container_name: pixelbot
     build: .
     command: node build/main.js
     environment:
-      env_file:
-        - .env
+      env_file: .env
+    networks:
+      - pixelbot
+  pixelbotdb:
+    container_name: pixelbotdb
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=pixelbot
+    volumes:
+      - ./data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - pixelbot
 

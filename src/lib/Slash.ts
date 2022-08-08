@@ -1,5 +1,5 @@
 import { ApplicationCommandOptions, MethodDecoratorEx, Slash } from "discordx";
-import { UsageStorage } from "./UsageStorage";
+import { UsageStorage } from "./UsageStorage.js";
 
 export function SlashEx(name: string, options: ApplicationCommandOptionsEx): MethodDecoratorEx {
     UsageStorage.add(name, options.usage);

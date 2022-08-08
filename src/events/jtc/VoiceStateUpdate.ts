@@ -8,7 +8,7 @@ import { ChannelType } from "discord-api-types/v10";
 export class JTCVoiceStateUpdate {
 
 
-    @On("voiceStateUpdate")
+    //@On("voiceStateUpdate")
     onVoiceStateUpdate(oldState: VoiceState, newState: VoiceState): void {
         if (newState.channel && newState.channel instanceof VoiceChannel) {
 

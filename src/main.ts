@@ -44,6 +44,7 @@ bot.once("ready", async () => {
     //    ...bot.guilds.cache.map((g) => g.id)
     //  );
 
+    /*
     // Create JTC config database collection
     const dbClient = new MongoClient("mongodb://pixelbot:pixelbot@pixelbotdb:27017/pixelbot");
     const db = dbClient.db("pixelbot");
@@ -77,6 +78,8 @@ bot.once("ready", async () => {
 
 
     await dbClient.close();
+
+     */
     console.log("Bot started");
 });
 

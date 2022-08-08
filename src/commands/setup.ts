@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { Discord, SlashChoice, SlashOption } from "discordx";
-import { SlashEx } from "../lib/Slash";
+import { SlashEx } from "../lib/Slash.js";
 
 @Discord()
 export class SlashExample {
@@ -14,11 +14,12 @@ export class SlashExample {
     ): Promise<void> {
         switch (choice) {
             case "jtc":
-                await interaction.reply("Reply to this message with the Channel IDs ");
                 await interaction.reply({embeds: [
                     new EmbedBuilder()
-                        .setTitle("Join to Create set up.")
-                        .setDescription("Try joining the voice channel(s) you specified.")
+                        .setTitle("Join to Create Setup")
+                        .addFields({ name: "1.", value: "Get the channel IDs of the channels you want to activate JTC for. To find out on how to get IDs, run /ids" })
+                        .addFields({ name: "2.", value: "Run /setupjtc <channelid(s) seperated by comma, without any spaces> [roleid(s) seperated by comma, without any spaces]" })
+                        .addFields({ name: "Note", value: "Arguments in square brackets [] are optional. If roles are specified, they will be able to lock (make it private) the jtc channel they are in IF they created it." })
                         .setColor(0x9900ff)
                         .setFooter({ text: "Made with ❤ by PixelAgent007" })
                 ]});

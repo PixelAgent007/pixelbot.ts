@@ -2,7 +2,7 @@ import { Pagination, PaginationItem } from "@discordx/pagination";
 import type { CommandInteraction } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { Discord, MetadataStorage, Slash } from "discordx";
-import { UsageStorage } from "../lib/UsageStorage";
+import { UsageStorage } from "../lib/UsageStorage.js";
 
 @Discord()
 export class HelpCommand {

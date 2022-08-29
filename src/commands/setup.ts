@@ -4,7 +4,7 @@ import { Discord, SlashChoice, SlashOption } from "discordx";
 import { SlashEx } from "../lib/Slash.js";
 
 @Discord()
-export class SlashExample {
+export class SetupCommand {
     @SlashEx("setup", { description: "Instructions on how to set up the bot" })
     async setup(
         @SlashChoice("jtc")

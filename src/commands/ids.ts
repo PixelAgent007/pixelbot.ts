@@ -5,7 +5,7 @@ import { SlashEx } from "../lib/Slash.js";
 import { ChannelType } from "discord-api-types/v9";
 
 @Discord()
-export class SlashExample {
+export class IdsCommand {
     @SlashEx("ids", { description: "Instructions on how to get channel, user and role ids." })
     async ids(interaction: CommandInteraction): Promise<void> {
         if (!interaction.guild) return;

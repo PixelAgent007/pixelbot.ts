@@ -14,10 +14,6 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": [
-    "build",
-    "node_modules",
-    "*sample.ts",
-    "*.d"
-  ]
+  "include": ["src"],
+  "exclude": ["src/*/*sample.ts"]
 }

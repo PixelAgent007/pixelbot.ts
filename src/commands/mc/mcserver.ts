@@ -4,8 +4,7 @@ import { Discord, SlashChoice, SlashOption } from "discordx";
 
 const Dockerode = require("dockerode");
 
-// @ts-ignore
-import { SlashEx } from "../lib/Slash.js";
+import { SlashEx } from "../../lib/Slash.js";
 
 @Discord()
 export class McServerCommand {

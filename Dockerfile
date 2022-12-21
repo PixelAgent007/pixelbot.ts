@@ -2,7 +2,7 @@
 ### build runner
 ###
 
-FROM node:lts-alpine as build-runner
+FROM node:16-alpine as build-runner
 
 # Set temp directory
 WORKDIR /tmp/app
@@ -13,11 +13,8 @@ COPY package.json .
 # Install git
 RUN apk add --no-cache git
 
-# Get pnpm
-RUN npm install pnpm -g
-
 # Install dependencies
-RUN pnpm install
+RUN npm install
 
 # Move source files
 COPY src ./src
@@ -26,12 +23,11 @@ COPY tsconfig.json   .
 # Build project
 RUN npm run build
 
-
 ###
 ### production runner
 ###
 
-FROM node:lts-alpine as prod-runner
+FROM node:16-alpine as prod-runner
 
 # Set work directory
 WORKDIR /app
@@ -45,11 +41,8 @@ COPY --from=build-runner /tmp/app/build /app/build
 # Install git
 RUN apk add --no-cache git
 
-# Get pnpm
-RUN npm install pnpm -g
-
 # Install dependencies
-RUN pnpm install
+RUN npm install
 
 # Start bot
 CMD [ "node", "build/main.js" ]

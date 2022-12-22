@@ -3,6 +3,5 @@ services:
   app:
     container_name: pixelbot
     build: .
-    command: node build/main.js
     env_file: .env
 

@@ -1,42 +1,11 @@
-###
-### build runner
-###
+FROM node:16-alpine
 
-FROM node:16-alpine as build-runner
-
-# Set temp directory
-WORKDIR /tmp/app
-
-# Move package.json
-COPY package.json .
-
-# Install git
-RUN apk add --no-cache git
-
-# Install dependencies
-RUN npm install
-
-# Move source files
-COPY src ./src
-COPY tsconfig.json   .
-
-# Build project
-RUN npm run build
-
-###
-### production runner
-###
-
-FROM node:16-alpine as prod-runner
-
-# Set work directory
 WORKDIR /app
 
-# Copy package.json from build-runner
-COPY --from=build-runner /tmp/app/package.json /app/package.json
+COPY ./package.json /app/package.json
 
 # Move build files
-COPY --from=build-runner /tmp/app/build /app/build
+COPY ./ /app/
 
 # Install git
 RUN apk add --no-cache git
@@ -45,4 +14,4 @@ RUN apk add --no-cache git
 RUN npm install
 
 # Start bot
-CMD [ "node", "build/main.js" ]
+CMD [ "npm", "run", "start" ]

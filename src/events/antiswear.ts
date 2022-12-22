@@ -1,6 +1,6 @@
 import type { ArgsOf, Client } from "discordx";
 import { Discord, On } from "discordx";
-import { GuildMember, InteractionResponse, MessageComponentInteraction, TextChannel, WebhookClient } from "discord.js";
+import { Message, WebhookClient } from "discord.js";
 import fetch from "node-fetch";
 import BadWords from "bad-words";
 
@@ -13,16 +13,8 @@ export class AntiSwearListener {
 
     filter = new BadWords()
 
-    @On("messageCreate")
-    messageCreate([message]: ArgsOf<"messageCreate">, bot: Client): void {
-        if (!message.guild) return;
-        if (message.author.bot) return;
-        if (message.webhookId) return;
-        if (message.author.id in this.allowedUsers) return;
-
-        if (!this.filter.isProfane(message.content)) return;
-
-        const nick = message.guild.members.cache.find(u => u.id === message.author.id)?.nickname
+    replaceWithCompliment(message: Message) {
+        const nick = message.guild?.members.cache.find(u => u.id === message.author.id)?.nickname
 
         // @ts-ignore
         message.channel.createWebhook({
@@ -38,5 +30,40 @@ export class AntiSwearListener {
 
             await webhook.delete();
         });
+    }
+
+    @On("messageCreate")
+    messageCreate([message]: ArgsOf<"messageCreate">, bot: Client): void {
+        if (!message.guild) return;
+        if (message.author.bot) return;
+        if (message.webhookId) return;
+        if (message.author.id in this.allowedUsers) return;
+
+        if (!this.filter.isProfane(message.content)) return;
+        this.replaceWithCompliment(message);
+    }
+
+    @On("messageUpdate")
+    messageUpdate([oldMessage, message]: ArgsOf<"messageUpdate">, bot: Client): void {
+        if (!message.guild) return;
+        if (!message.author) return;
+        if (!message.content) return;
+        if (message.author.bot) return;
+        if (message.webhookId) return;
+        if (message.author.id in this.allowedUsers) return;
+
+        if (!this.filter.isProfane(message.content)) return;
+        // @ts-ignore
+        this.replaceWithCompliment(message);
+    }
+
+    @On("guildMemberUpdate")
+    async guildMemberUpdate([oldMember, member]: ArgsOf<"guildMemberUpdate">, bot: Client): Promise<void> {
+        if (!member.nickname) return;
+        if (!this.filter.isProfane(member.nickname)) return;
+
+        try {
+            await member.setNickname("be nice");
+        } catch (e) {}
     }
 }

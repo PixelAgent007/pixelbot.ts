@@ -1,6 +1,6 @@
 import type { CommandInteraction } from "discord.js";
 import { EmbedBuilder } from "discord.js";
-import { Discord } from "discordx";
+import { Discord, Guild } from "discordx";
 import { SlashEx } from "../lib/Slash.js";
 import { ChannelType } from "discord-api-types/v9";
 

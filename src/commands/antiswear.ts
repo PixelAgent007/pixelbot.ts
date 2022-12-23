@@ -28,19 +28,19 @@ export class AntiswearCommands {
             return;
         }
 
-        const config = JSON.parse(readFileSync("./config.json").toString()).antiswear;
+        const config = JSON.parse(readFileSync("./config.json").toString());
 
-        if (interaction.member.user.id !in config.moderators) {
+        if (interaction.member.user.id !in config.antiswear.moderators) {
             await interaction.reply({ ephemeral: true, content: "Thou shalt not use this command, **peasant!**" });
             return;
         }
 
         const words = word.split(",");
-        config.words.blacklist.push(...words.filter(x => !config.words.blacklist.includes(x)));
+        config.antiswear.words.blacklist.push(...words.filter(x => !config.antiswear.words.blacklist.includes(x)));
         // @ts-ignore
-        config.words.whitelist = config.words.whitelist.filter(x => !words.includes(x));
+        config.antiswear.words.whitelist = config.antiswear.words.whitelist.filter(x => !words.includes(x));
 
-        writeFileSync("./config.json", JSON.stringify(config.antiswear));
+        writeFileSync("./config.json", JSON.stringify(config));
         await interaction.reply({ ephemeral: true, content: "Added word" });
     }
 
@@ -60,19 +60,19 @@ export class AntiswearCommands {
             return;
         }
 
-        const config = JSON.parse(readFileSync("./config.json").toString()).antiswear;
+        const config = JSON.parse(readFileSync("./config.json").toString());
 
-        if (interaction.member.user.id !in config.moderators) {
+        if (interaction.member.user.id !in config.antiswear.moderators) {
             await interaction.reply({ ephemeral: true, content: "Thou shalt not use this command, **peasant!**" });
             return;
         }
 
         const words = word.split(",");
-        config.words.whitelist.push(...words.filter(x => !config.words.whitelist.includes(x)));
+        config.antiswear.words.whitelist.push(...words.filter(x => !config.antiswear.words.whitelist.includes(x)));
         // @ts-ignore
-        config.words.blacklist = config.words.blacklist.filter(x => !words.includes(x));
+        config.antiswear.words.blacklist = config.antiswear.words.blacklist.filter(x => !words.includes(x));
 
-        writeFileSync("./config.json", JSON.stringify(config.antiswear));
+        writeFileSync("./config.json", JSON.stringify(config));
         await interaction.reply({ ephemeral: true, content: "Added word" });
     }
 }

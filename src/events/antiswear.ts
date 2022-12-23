@@ -9,19 +9,19 @@ import BadWords from "bad-words";
 export class AntiSwearListener {
 
     setupFilter() {
-        const config = JSON.parse(readFileSync("./config.json").toString()).antiswear;
+        const config = JSON.parse(readFileSync("./config.json").toString());
 
-        this.filter.addWords(...config.words.blacklist);
-        this.filter.removeWords(...config.words.whitelist);
-        this.allowedUsers = config.moderators;
+        this.filter.addWords(...config.antiswear.words.blacklist);
+        this.filter.removeWords(...config.antiswear.words.whitelist);
+        this.allowedUsers = config.antiswear.moderators;
     }
 
-    allowedUsers = [];
+    allowedUsers: any[] = [];
 
     filter = new BadWords()
 
     replaceWithCompliment(message: Message) {
-        const nick = message.guild?.members.cache.find(u => u.id === message.author.id)?.nickname
+        const nick = message.guild?.members.cache.find(u => u.id === message.author.id)?.nickname;
 
         // @ts-ignore
         message.channel.createWebhook({
@@ -47,7 +47,8 @@ export class AntiSwearListener {
 
         this.setupFilter();
 
-        if (message.author.id in this.allowedUsers) return;
+        // @ts-ignore
+        if (this.allowedUsers.includes(message.author.id)) return;
         if (!this.filter.isProfane(message.content)) return;
 
         this.replaceWithCompliment(message);
@@ -63,7 +64,7 @@ export class AntiSwearListener {
 
         this.setupFilter();
 
-        if (message.author.id in this.allowedUsers) return;
+        if (this.allowedUsers.includes(message.author.id)) return;
         if (!this.filter.isProfane(message.content)) return;
 
         // @ts-ignore

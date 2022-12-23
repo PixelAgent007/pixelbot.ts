@@ -1,16 +1,1 @@
-{
-  "antiswear": {
-    "words": {
-      "whitelist": [
-        "cheese"
-      ],
-      "blacklist": [
-        "cheese"
-      ]
-    },
-    "moderators": [
-      "933819147362648115",
-      "685771268988993548"
-    ]
-  }
-}
+{"antiswear":{"words":{"whitelist":[],"blacklist":[""]},"moderators":["487247155741065229","685771268988993548"]}}

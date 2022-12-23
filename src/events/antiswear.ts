@@ -1,15 +1,22 @@
 import type { ArgsOf, Client } from "discordx";
 import { Discord, On } from "discordx";
 import { Message, WebhookClient } from "discord.js";
+import { readFileSync } from "fs";
 import fetch from "node-fetch";
 import BadWords from "bad-words";
 
 @Discord()
 export class AntiSwearListener {
-    allowedUsers = [
-        "933819147362648115",
-        "685771268988993548"
-    ];
+
+    setupFilter() {
+        const config = JSON.parse(readFileSync("./config.json").toString()).antiswear;
+
+        this.filter.addWords(...config.words.blacklist);
+        this.filter.removeWords(...config.words.whitelist);
+        this.allowedUsers = config.moderators;
+    }
+
+    allowedUsers = [];
 
     filter = new BadWords()
 
@@ -37,9 +44,12 @@ export class AntiSwearListener {
         if (!message.guild) return;
         if (message.author.bot) return;
         if (message.webhookId) return;
-        if (message.author.id in this.allowedUsers) return;
 
+        this.setupFilter();
+
+        if (message.author.id in this.allowedUsers) return;
         if (!this.filter.isProfane(message.content)) return;
+
         this.replaceWithCompliment(message);
     }
 
@@ -50,9 +60,12 @@ export class AntiSwearListener {
         if (!message.content) return;
         if (message.author.bot) return;
         if (message.webhookId) return;
-        if (message.author.id in this.allowedUsers) return;
 
+        this.setupFilter();
+
+        if (message.author.id in this.allowedUsers) return;
         if (!this.filter.isProfane(message.content)) return;
+
         // @ts-ignore
         this.replaceWithCompliment(message);
     }
@@ -60,6 +73,10 @@ export class AntiSwearListener {
     @On("guildMemberUpdate")
     async guildMemberUpdate([oldMember, member]: ArgsOf<"guildMemberUpdate">, bot: Client): Promise<void> {
         if (!member.nickname) return;
+
+        this.setupFilter();
+
+        if (member.id in this.allowedUsers) return;
         if (!this.filter.isProfane(member.nickname)) return;
 
         try {

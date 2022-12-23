@@ -35,6 +35,7 @@ export class Example {
       );
 
     interaction.editReply({
+      // @ts-ignore
       components: [row],
       content: `${user}, Say hello to bot`,
     });

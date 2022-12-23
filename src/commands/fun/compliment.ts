@@ -2,7 +2,6 @@ import type { CommandInteraction } from "discord.js";
 import { Discord } from "discordx";
 import { SlashEx } from "../../lib/Slash.js";
 import fetch from "node-fetch";
-
 @Discord()
 export class ComplimentCommand {
     @SlashEx("compliment", { description: "Receive a nice compliment", usage: "/compliment" })
